@@ -11,12 +11,10 @@ This repository describes the pipeline for generating features from Whole-Slide 
 
 **Input:**
 - Whole-Slide Images (WSIs)  
-- Code from branch `MIL_fra_dev` (BufferMIL)  
-- Pretrained model weights (provided separately)
+- Code from https://github.com/FrancescaMiccolis/mil4wsi.git using bufferMIL model
 
 **Processing:**
-- Run BufferMIL in inference mode using the provided model weights.
-- The model computes attention scores over WSI tiles.
+- Run BufferMIL to compute attention scores over WSI tiles.
 
 **Output:**
 - JSON attention maps (heatmaps showing attended regions)
@@ -29,13 +27,13 @@ This repository describes the pipeline for generating features from Whole-Slide 
 - Raw WSIs
 
 **Processing:**
-- Run panoptic segmentation with `cellseg_models v0.1.21`
+- Run panoptic segmentation with https://github.com/okunator/cellseg_models.pytorch.git (v0.1.21 employed in our analysis)
 - Merge segmented areas and cells
 
 **Output:**
 - Segmentation **GeoJSON** with cell- and tissue-level annotations
 
-> This step is independent of Step 1 and can be run in parallel.
+This step is independent of Step 1 and can be run in parallel.
 
 ---
 
@@ -44,7 +42,7 @@ This repository describes the pipeline for generating features from Whole-Slide 
 **Input:**
 - Attention maps JSON (from Step 1)  
 - Panoptic segmentation GeoJSON (from Step 2)  
-- Analysis script
+- Analysis script provided in this repository
 
   **Processing:**
 - Integrates attention regions (BufferMIL) with segmentation results (cellseg_models).
@@ -53,7 +51,7 @@ This repository describes the pipeline for generating features from Whole-Slide 
 - Computes a panel of morphological and spatial features.
 
 **Output:**
-Numerical feature set, focusing on 7 key features:
+Numerical feature set, we focused on 7 key features that, according to our analysis, were the most informative among all:
 
 1. `tumor_cells_eccentricity_max`  
 2. `tumor_cells_major_axis_len_max`  
